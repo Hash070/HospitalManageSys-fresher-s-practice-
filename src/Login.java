@@ -14,6 +14,7 @@ import javax.swing.*;
  * @author a
  */
 public class Login extends JFrame {
+    public static String user=null;
     public Login() {
         initComponents();
     }
@@ -44,6 +45,11 @@ public class Login extends JFrame {
         if(isAccountValid(username.getText(),password)){
             err.setText("Ok");
             err.setForeground(Color.green);
+            user=username.getText();
+            this.dispose();
+            Menu m = new Menu();
+            m.setDefaultCloseOperation(3);
+            m.setVisible(true);
         }else{
             err.setText("Wrong username or password");
             err.setForeground(Color.red);
@@ -95,7 +101,7 @@ public class Login extends JFrame {
             panel1.add(username);
             username.setBounds(225, 110, 175, 30);
             panel1.add(pw);
-            pw.setBounds(225, 165, 175, pw.getPreferredSize().height);
+            pw.setBounds(225, 165, 175, 30);
 
             //---- login ----
             login.setText("Login");

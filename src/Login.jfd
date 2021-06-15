@@ -43,6 +43,7 @@ new FormModel {
 					"x": 225
 					"y": 165
 					"width": 175
+					"height": 30
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "login"
