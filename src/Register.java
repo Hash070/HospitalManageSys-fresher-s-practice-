@@ -1,8 +1,7 @@
-import com.mysql.jdbc.PreparedStatement;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.*;
@@ -27,9 +26,49 @@ public class Register extends JFrame {
         l.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         l.setVisible(true);
     }
+    private void Reg(String username,String password,double tel,String mail) throws AccountEcho{
+        Connection conn=null;
+        PreparedStatement pst=null;
+        ResultSet rs = null;
+        try {
+            conn=JdbcUtils.getConnection();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        String sql = "select * from Account where username=?";
+        try {
+            pst=conn.prepareStatement(sql);
+            pst.setString(1,username);
+            rs=pst.executeQuery();
+            if(rs.next()){
+                throw new AccountEcho(username);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally{
+            JdbcUtils.release(conn,pst,rs);
+        }
+        //check whether the username input is valid
+        try {
+            conn=JdbcUtils.getConnection();
+            String sqlIn = "INSERT INTO `HostipalDB`.`Account`(`username`, `password`, `tel`, `mail`) VALUES (?, ?, ?, ?)";
+            pst=conn.prepareStatement(sqlIn);
+            pst.setString(1,username);
+            pst.setString(2,password);
+            pst.setDouble(3,tel);
+            pst.setString(4,mail);
+            pst.executeUpdate();
+            err.setText("Reg Success");
+            err.setForeground(Color.green);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
+    }
     private void confirmActionPerformed(ActionEvent e) {
         // TODO add your code here
+        err.setText("");
+        //refresh label err every time
         Connection conn=null;
         PreparedStatement pst=null;
         ResultSet rs=null;
@@ -38,9 +77,22 @@ public class Register extends JFrame {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
+        String pa = new String(pw1.getPassword());
+        String pb = new String(pw2.getPassword());
+        if(pa.equals(pb)){
+            try {
+                Reg(username.getText(),pa, Double.parseDouble(tel.getText()),mail.getText());
+            } catch (AccountEcho accountEcho) {
+                accountEcho.printStackTrace();
+                String echo=AccountEcho.getEchoaccount();
+                err.setText("The username "+echo+" have been registered!");
+                err.setForeground(Color.red);
+            }
+        }else{
+            err.setText("The password you have enter is inconsistent");
+            err.setForeground(Color.red);
+        }
     }
-
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         panel1 = new JPanel();
@@ -194,11 +246,11 @@ public class Register extends JFrame {
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
 class AccountEcho extends Exception{
-    String echoaccount;
+    static String echoaccount;
     public AccountEcho(String ace){
         echoaccount=ace;
     }
-    public String getEchoaccount(){
+    public static String getEchoaccount(){
         return echoaccount;
     }
 }
