@@ -1,0 +1,204 @@
+import com.mysql.jdbc.PreparedStatement;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.*;
+/*
+ * Created by JFormDesigner on Tue Jun 15 14:12:25 CST 2021
+ */
+
+
+
+/**
+ * @author a
+ */
+public class Register extends JFrame {
+    public Register() {
+        initComponents();
+    }
+
+    private void backActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        this.dispose();
+        Login l=new Login();
+        l.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        l.setVisible(true);
+    }
+
+    private void confirmActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        Connection conn=null;
+        PreparedStatement pst=null;
+        ResultSet rs=null;
+        try {
+            conn=JdbcUtils.getConnection();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    private void initComponents() {
+        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
+        panel1 = new JPanel();
+        title = new JLabel();
+        back = new JButton();
+        l1 = new JLabel();
+        l2 = new JLabel();
+        username = new JTextField();
+        l3 = new JLabel();
+        confirm = new JButton();
+        pw1 = new JPasswordField();
+        pw2 = new JPasswordField();
+        err = new JLabel();
+        l4 = new JLabel();
+        l5 = new JLabel();
+        tel = new JTextField();
+        mail = new JTextField();
+        label4 = new JLabel();
+        label5 = new JLabel();
+
+        //======== this ========
+        var contentPane = getContentPane();
+        contentPane.setLayout(null);
+
+        //======== panel1 ========
+        {
+            panel1.setLayout(null);
+
+            //---- title ----
+            title.setText("Register Interface");
+            panel1.add(title);
+            title.setBounds(new Rectangle(new Point(220, 20), title.getPreferredSize()));
+
+            //---- back ----
+            back.setText("Back");
+            back.addActionListener(e -> backActionPerformed(e));
+            panel1.add(back);
+            back.setBounds(new Rectangle(new Point(5, 5), back.getPreferredSize()));
+
+            //---- l1 ----
+            l1.setText("Name");
+            panel1.add(l1);
+            l1.setBounds(new Rectangle(new Point(110, 80), l1.getPreferredSize()));
+
+            //---- l2 ----
+            l2.setText("Password");
+            panel1.add(l2);
+            l2.setBounds(new Rectangle(new Point(110, 125), l2.getPreferredSize()));
+            panel1.add(username);
+            username.setBounds(240, 75, 165, username.getPreferredSize().height);
+
+            //---- l3 ----
+            l3.setText("ConfirmPassword");
+            panel1.add(l3);
+            l3.setBounds(new Rectangle(new Point(110, 170), l3.getPreferredSize()));
+
+            //---- confirm ----
+            confirm.setText("Confirm");
+            confirm.addActionListener(e -> confirmActionPerformed(e));
+            panel1.add(confirm);
+            confirm.setBounds(new Rectangle(new Point(230, 320), confirm.getPreferredSize()));
+            panel1.add(pw1);
+            pw1.setBounds(240, 120, 165, pw1.getPreferredSize().height);
+            panel1.add(pw2);
+            pw2.setBounds(240, 165, 165, pw2.getPreferredSize().height);
+
+            //---- err ----
+            err.setHorizontalAlignment(SwingConstants.CENTER);
+            panel1.add(err);
+            err.setBounds(145, 360, 255, 35);
+
+            //---- l4 ----
+            l4.setText("Tel");
+            panel1.add(l4);
+            l4.setBounds(new Rectangle(new Point(110, 215), l4.getPreferredSize()));
+
+            //---- l5 ----
+            l5.setText("Mail");
+            panel1.add(l5);
+            l5.setBounds(new Rectangle(new Point(110, 260), l5.getPreferredSize()));
+            panel1.add(tel);
+            tel.setBounds(240, 210, 165, tel.getPreferredSize().height);
+            panel1.add(mail);
+            mail.setBounds(240, 255, 165, mail.getPreferredSize().height);
+
+            //---- label4 ----
+            label4.setText("Optional");
+            panel1.add(label4);
+            label4.setBounds(new Rectangle(new Point(430, 215), label4.getPreferredSize()));
+
+            //---- label5 ----
+            label5.setText("Optional");
+            panel1.add(label5);
+            label5.setBounds(new Rectangle(new Point(430, 260), label5.getPreferredSize()));
+
+            {
+                // compute preferred size
+                Dimension preferredSize = new Dimension();
+                for(int i = 0; i < panel1.getComponentCount(); i++) {
+                    Rectangle bounds = panel1.getComponent(i).getBounds();
+                    preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+                    preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+                }
+                Insets insets = panel1.getInsets();
+                preferredSize.width += insets.right;
+                preferredSize.height += insets.bottom;
+                panel1.setMinimumSize(preferredSize);
+                panel1.setPreferredSize(preferredSize);
+            }
+        }
+        contentPane.add(panel1);
+        panel1.setBounds(0, 0, 545, 400);
+
+        {
+            // compute preferred size
+            Dimension preferredSize = new Dimension();
+            for(int i = 0; i < contentPane.getComponentCount(); i++) {
+                Rectangle bounds = contentPane.getComponent(i).getBounds();
+                preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+                preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+            }
+            Insets insets = contentPane.getInsets();
+            preferredSize.width += insets.right;
+            preferredSize.height += insets.bottom;
+            contentPane.setMinimumSize(preferredSize);
+            contentPane.setPreferredSize(preferredSize);
+        }
+        pack();
+        setLocationRelativeTo(getOwner());
+        // JFormDesigner - End of component initialization  //GEN-END:initComponents
+    }
+
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    private JPanel panel1;
+    private JLabel title;
+    private JButton back;
+    private JLabel l1;
+    private JLabel l2;
+    private JTextField username;
+    private JLabel l3;
+    private JButton confirm;
+    private JPasswordField pw1;
+    private JPasswordField pw2;
+    private JLabel err;
+    private JLabel l4;
+    private JLabel l5;
+    private JTextField tel;
+    private JTextField mail;
+    private JLabel label4;
+    private JLabel label5;
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
+}
+class AccountEcho extends Exception{
+    String echoaccount;
+    public AccountEcho(String ace){
+        echoaccount=ace;
+    }
+    public String getEchoaccount(){
+        return echoaccount;
+    }
+}

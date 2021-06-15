@@ -10,6 +10,7 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "reg"
 					"text": "Register"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "regActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"x": 430
 					"y": 10

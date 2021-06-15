@@ -10,7 +10,6 @@ import javax.swing.*;
  */
 
 
-
 /**
  * @author a
  */
@@ -50,6 +49,14 @@ public class Login extends JFrame {
             err.setForeground(Color.red);
         }
     }
+
+    private void regActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        this.dispose();
+        Register reg = new Register();
+        reg.setDefaultCloseOperation(3);
+        reg.setVisible(true);
+    }
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         panel1 = new JPanel();
@@ -72,6 +79,7 @@ public class Login extends JFrame {
 
             //---- reg ----
             reg.setText("Register");
+            reg.addActionListener(e -> regActionPerformed(e));
             panel1.add(reg);
             reg.setBounds(new Rectangle(new Point(430, 10), reg.getPreferredSize()));
 
