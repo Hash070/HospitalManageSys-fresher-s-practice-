@@ -40,12 +40,20 @@ public class Menu extends JFrame {
         p.setVisible(true);
     }
 
+    private void usermanageActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        this.dispose();
+        DrManage d= new DrManage();
+        d.setDefaultCloseOperation(3);
+        d.setVisible(true);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         panel1 = new JPanel();
         button1 = new JButton();
         button2 = new JButton();
-        button3 = new JButton();
+        usermanage = new JButton();
         personal = new JButton();
         button5 = new JButton();
         title = new JLabel();
@@ -70,10 +78,11 @@ public class Menu extends JFrame {
             panel1.add(button2);
             button2.setBounds(new Rectangle(new Point(50, 90), button2.getPreferredSize()));
 
-            //---- button3 ----
-            button3.setText("\u533b\u751f\u4fe1\u606f\u7ba1\u7406\u6a21\u5757");
-            panel1.add(button3);
-            button3.setBounds(new Rectangle(new Point(40, 140), button3.getPreferredSize()));
+            //---- usermanage ----
+            usermanage.setText("\u533b\u751f\u4fe1\u606f\u7ba1\u7406\u6a21\u5757");
+            usermanage.addActionListener(e -> usermanageActionPerformed(e));
+            panel1.add(usermanage);
+            usermanage.setBounds(new Rectangle(new Point(40, 140), usermanage.getPreferredSize()));
 
             //---- personal ----
             personal.setText("\u4e2a\u4eba\u4fe1\u606f");
@@ -143,7 +152,7 @@ public class Menu extends JFrame {
     private JPanel panel1;
     private JButton button1;
     private JButton button2;
-    private JButton button3;
+    private JButton usermanage;
     private JButton personal;
     private JButton button5;
     private JLabel title;

@@ -60,10 +60,10 @@ public class PersonInfo extends JFrame {
         try {
             conn=JdbcUtils.getConnection();
             del = conn.prepareStatement("DELETE FROM `HostipalDB`.`Account` WHERE `username` = ?");
-            del.setString(1, username.getText());
+            del.setString(1,Login.user);
             del.executeUpdate();
             del.close();
-            String sql ="INSERT INTO HostipalDB.Account (username, password, tel, mail)\n" +
+            String sql ="insert into HostipalDB.Account (username, password, tel, mail) " +
                     "VALUES (?, ?, ?, ?);";
             pst = conn.prepareStatement(sql);
             pst.setString(1,username.getText());
