@@ -19,6 +19,7 @@ public class JdbcUtils {
                 e.printStackTrace();
             }
             //load into properties
+        //检查半天原来是资源文件写错了。。。。。
             driver=properties.getProperty("driver");
             url=properties.getProperty("url");
             username=properties.getProperty("username");
