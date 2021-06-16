@@ -56,7 +56,7 @@ new FormModel {
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "confirmActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"x": 230
-					"y": 320
+					"y": 345
 				} )
 				add( new FormComponent( "javax.swing.JPasswordField" ) {
 					name: "pw1"
@@ -71,15 +71,6 @@ new FormModel {
 					"x": 240
 					"y": 165
 					"width": 165
-				} )
-				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "err"
-					"horizontalAlignment": 0
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"x": 145
-					"y": 360
-					"width": 255
-					"height": 35
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "l4"
@@ -109,15 +100,38 @@ new FormModel {
 					"y": 255
 					"width": 165
 				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label1"
+					"text": "VerifyCode"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 110
+					"y": 305
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "err"
+					"horizontalAlignment": 0
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 145
+					"y": 390
+					"width": 255
+					"height": 35
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "verify"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 240
+					"y": 300
+					"width": 165
+				} )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"x": 0
 				"y": 0
 				"width": 545
-				"height": 400
+				"height": 435
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 545, 425 )
+			"size": new java.awt.Dimension( 545, 460 )
 		} )
 	}
 }

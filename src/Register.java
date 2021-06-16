@@ -67,29 +67,36 @@ public class Register extends JFrame {
     }
     private void confirmActionPerformed(ActionEvent e) {
         // TODO add your code here
-        err.setText("");
-        //refresh label err every time
-        Connection conn=null;
-        PreparedStatement pst=null;
-        ResultSet rs=null;
-        try {
-            conn=JdbcUtils.getConnection();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        String pa = new String(pw1.getPassword());
-        String pb = new String(pw2.getPassword());
-        if(pa.equals(pb)){
+        String verifycode = verify.getText();
+        if (verifycode.equals("ICCID10000"))
+        {
+            err.setText("");
+            //refresh label err every time
+            Connection conn = null;
+            PreparedStatement pst = null;
+            ResultSet rs = null;
             try {
-                Reg(username.getText(),pa, Double.parseDouble(tel.getText()),mail.getText());
-            } catch (AccountEcho accountEcho) {
-                accountEcho.printStackTrace();
-                String echo=AccountEcho.getEchoaccount();
-                err.setText("The username "+echo+" have been registered!");
+                conn = JdbcUtils.getConnection();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            String pa = new String(pw1.getPassword());
+            String pb = new String(pw2.getPassword());
+            if (pa.equals(pb)) {
+                try {
+                    Reg(username.getText(), pa, Double.parseDouble(tel.getText()), mail.getText());
+                } catch (AccountEcho accountEcho) {
+                    accountEcho.printStackTrace();
+                    String echo = AccountEcho.getEchoaccount();
+                    err.setText("The username " + echo + " have been registered!");
+                    err.setForeground(Color.red);
+                }
+            } else {
+                err.setText("The password you have enter is inconsistent");
                 err.setForeground(Color.red);
             }
         }else{
-            err.setText("The password you have enter is inconsistent");
+            err.setText("VerifyCode wrong,please turn to Admin for help");
             err.setForeground(Color.red);
         }
     }
@@ -105,11 +112,13 @@ public class Register extends JFrame {
         confirm = new JButton();
         pw1 = new JPasswordField();
         pw2 = new JPasswordField();
-        err = new JLabel();
         l4 = new JLabel();
         l5 = new JLabel();
         tel = new JTextField();
         mail = new JTextField();
+        label1 = new JLabel();
+        err = new JLabel();
+        verify = new JTextField();
 
         //======== this ========
         var contentPane = getContentPane();
@@ -151,16 +160,11 @@ public class Register extends JFrame {
             confirm.setText("Confirm");
             confirm.addActionListener(e -> confirmActionPerformed(e));
             panel1.add(confirm);
-            confirm.setBounds(new Rectangle(new Point(230, 320), confirm.getPreferredSize()));
+            confirm.setBounds(new Rectangle(new Point(230, 345), confirm.getPreferredSize()));
             panel1.add(pw1);
             pw1.setBounds(240, 120, 165, pw1.getPreferredSize().height);
             panel1.add(pw2);
             pw2.setBounds(240, 165, 165, pw2.getPreferredSize().height);
-
-            //---- err ----
-            err.setHorizontalAlignment(SwingConstants.CENTER);
-            panel1.add(err);
-            err.setBounds(145, 360, 255, 35);
 
             //---- l4 ----
             l4.setText("Tel");
@@ -175,6 +179,18 @@ public class Register extends JFrame {
             tel.setBounds(240, 210, 165, tel.getPreferredSize().height);
             panel1.add(mail);
             mail.setBounds(240, 255, 165, mail.getPreferredSize().height);
+
+            //---- label1 ----
+            label1.setText("VerifyCode");
+            panel1.add(label1);
+            label1.setBounds(new Rectangle(new Point(110, 305), label1.getPreferredSize()));
+
+            //---- err ----
+            err.setHorizontalAlignment(SwingConstants.CENTER);
+            panel1.add(err);
+            err.setBounds(145, 390, 255, 35);
+            panel1.add(verify);
+            verify.setBounds(240, 300, 165, verify.getPreferredSize().height);
 
             {
                 // compute preferred size
@@ -192,7 +208,7 @@ public class Register extends JFrame {
             }
         }
         contentPane.add(panel1);
-        panel1.setBounds(0, 0, 545, 400);
+        panel1.setBounds(0, 0, 545, 435);
 
         {
             // compute preferred size
@@ -224,11 +240,13 @@ public class Register extends JFrame {
     private JButton confirm;
     private JPasswordField pw1;
     private JPasswordField pw2;
-    private JLabel err;
     private JLabel l4;
     private JLabel l5;
     private JTextField tel;
     private JTextField mail;
+    private JLabel label1;
+    private JLabel err;
+    private JTextField verify;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
 class AccountEcho extends Exception{
