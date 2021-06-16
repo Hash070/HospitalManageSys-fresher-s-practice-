@@ -131,8 +131,8 @@ public class DrManage extends JFrame {
                 pst.setString(1,selecteduser);
                 rs = pst.executeQuery();
                 rs.next();
-                System.out.println(rs.getString("username"));
-                System.out.println(selecteduser);//for debug
+//                System.out.println(rs.getString("username"));
+//                System.out.println(selecteduser);//for debug
                 username.setText(rs.getString("username"));
                 password.setText(rs.getString("password"));
                 tel.setText(rs.getString("tel"));
