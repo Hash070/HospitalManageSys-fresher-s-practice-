@@ -56,11 +56,19 @@ public class Menu extends JFrame {
         d.setVisible(true);
     }
 
+    private void patientActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        this.dispose();
+        Patient d=new Patient();
+        d.setDefaultCloseOperation(3);
+        d.setVisible(true);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         panel1 = new JPanel();
         druginfo = new JButton();
-        button2 = new JButton();
+        patient = new JButton();
         usermanage = new JButton();
         personal = new JButton();
         button5 = new JButton();
@@ -82,10 +90,11 @@ public class Menu extends JFrame {
             panel1.add(druginfo);
             druginfo.setBounds(new Rectangle(new Point(50, 40), druginfo.getPreferredSize()));
 
-            //---- button2 ----
-            button2.setText("\u60a3\u8005\u4fe1\u606f\u7ba1\u7406");
-            panel1.add(button2);
-            button2.setBounds(new Rectangle(new Point(50, 90), button2.getPreferredSize()));
+            //---- patient ----
+            patient.setText("\u60a3\u8005\u4fe1\u606f\u7ba1\u7406");
+            patient.addActionListener(e -> patientActionPerformed(e));
+            panel1.add(patient);
+            patient.setBounds(new Rectangle(new Point(50, 90), patient.getPreferredSize()));
 
             //---- usermanage ----
             usermanage.setText("\u533b\u751f\u4fe1\u606f\u7ba1\u7406\u6a21\u5757");
@@ -160,7 +169,7 @@ public class Menu extends JFrame {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private JPanel panel1;
     private JButton druginfo;
-    private JButton button2;
+    private JButton patient;
     private JButton usermanage;
     private JButton personal;
     private JButton button5;

@@ -16,8 +16,9 @@ new FormModel {
 					"y": 40
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "button2"
+					name: "patient"
 					"text": "患者信息管理"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "patientActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"x": 50
 					"y": 90
