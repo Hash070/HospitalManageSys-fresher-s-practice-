@@ -64,7 +64,6 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JTextField" ) {
 					name: "username"
-					"editable": false
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"x": 360
 					"y": 95
@@ -123,6 +122,23 @@ new FormModel {
 					"y": 390
 					"width": 440
 					"height": 60
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "notice"
+					"text": "Notice: if you want to add new user"
+					"horizontalAlignment": 0
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 220
+					"y": 270
+					"width": 390
+					"height": 30
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label6"
+					"text": "please click the refresh button and do not select any account"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 225
+					"y": 305
 				} )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"x": 0

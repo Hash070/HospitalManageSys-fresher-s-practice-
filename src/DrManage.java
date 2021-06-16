@@ -14,13 +14,18 @@ import javax.swing.event.*;
  * @author a
  */
 public class DrManage extends JFrame {
+    Vector<String> v=null;
     String selecteduser=null;
+    int selectedIndex=-1;
     public DrManage() {
         initComponents();
         initJlist();
     }
     public void initJlist(){
-        Vector<String> v= new Vector<String>();
+        v=new Vector<String>();
+        // the elder v info will be cleaned by java
+        // make sure the v is always new when init
+        selectedIndex=-1;
         Connection conn=null;
         PreparedStatement pst=null;
         ResultSet rs=null;
@@ -36,6 +41,8 @@ public class DrManage extends JFrame {
             aclist.setListData(v);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            err.setText("Un,some err occurred");
+            err.setForeground(Color.red);
         }finally{
             JdbcUtils.release(conn,pst,rs);
         }
@@ -45,6 +52,56 @@ public class DrManage extends JFrame {
         password.setText("");
         tel.setText("");
         mail.setText("");
+        err.setText("");
+        unselectList();
+    }
+    private void Reg(String username,String password,double tel,String mail) throws AccountEcho{
+        Connection conn=null;
+        PreparedStatement pst=null;
+        ResultSet rs = null;
+        try {
+            conn=JdbcUtils.getConnection();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        String sql = "select * from Account where username=?";
+        try {
+            pst=conn.prepareStatement(sql);
+            pst.setString(1,username);
+            rs=pst.executeQuery();
+            if(rs.next()){
+                throw new AccountEcho(username);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally{
+            JdbcUtils.release(conn,pst,rs);
+        }
+        //check whether the username input is valid
+        try {
+            conn=JdbcUtils.getConnection();
+            String sqlIn = "INSERT INTO `HostipalDB`.`Account`(`username`, `password`, `tel`, `mail`) VALUES (?, ?, ?, ?)";
+            pst=conn.prepareStatement(sqlIn);
+            pst.setString(1,username);
+            pst.setString(2,password);
+            pst.setDouble(3,tel);
+            pst.setString(4,mail);
+            pst.executeUpdate();
+            err.setText("Reg Success");
+            err.setForeground(Color.green);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+    public void unselectList(){
+        int[] s=new int[v.size()];
+        for(int i=0;i<s.length;i++){
+            s[i]=-1;
+        }
+        aclist.setSelectedIndices(s);
+        selecteduser=null;
+        selectedIndex=-1;
     }
     private void backActionPerformed(ActionEvent e) {
         // TODO add your code here
@@ -60,6 +117,7 @@ public class DrManage extends JFrame {
             err.setText("");
             Object[] selected = aclist.getSelectedValues();
             selecteduser=selected[0].toString();
+            selectedIndex=aclist.getSelectedIndex();
             //experience get :
             //if you directly use Object array "selected" without "[0]"
             //then you will have a bug to fix
@@ -69,12 +127,12 @@ public class DrManage extends JFrame {
             try {
                 conn = JdbcUtils.getConnection();
                 String sql = "select * from Account where username=?";
-                System.out.println(selecteduser);
                 pst = conn.prepareStatement(sql);
                 pst.setString(1,selecteduser);
                 rs = pst.executeQuery();
                 rs.next();
                 System.out.println(rs.getString("username"));
+                System.out.println(selecteduser);//for debug
                 username.setText(rs.getString("username"));
                 password.setText(rs.getString("password"));
                 tel.setText(rs.getString("tel"));
@@ -120,26 +178,49 @@ public class DrManage extends JFrame {
 
     private void saveActionPerformed(ActionEvent e) {
         // TODO add your code here
-        Connection conn = null;
-        PreparedStatement pst=null;
-        try {
-            String sql = "update HostipalDB.Account set password=?,tel=?,mail=? where username =?";
-            //the use age of update in sql
-            //update [table name] set [column 1]=[value 1],[column 2]=[value 2]...... where....
-            conn = JdbcUtils.getConnection();
-            pst = conn.prepareStatement(sql);
-            pst.setString(1,password.getText());
-            pst.setString(2,tel.getText());
-            pst.setString(3,mail.getText());
-            pst.setString(4,username.getText());
-            pst.executeUpdate();
-            err.setText("Success");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            err.setForeground(Color.red);
-            err.setText("Error");
-        }finally{
-            JdbcUtils.release(conn,pst,null);
+        if(selecteduser!=null){
+            Connection conn = null;
+            PreparedStatement pst = null;
+            try {
+                String sql = "update HostipalDB.Account set username=?,password=?,tel=?,mail=? where username =?";
+                //the use age of update in sql
+                //update [table name] set [column 1]=[value 1],[column 2]=[value 2]...... where....
+                conn = JdbcUtils.getConnection();
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, username.getText());
+                pst.setString(2, password.getText());
+                pst.setString(3, tel.getText());
+                pst.setString(4, mail.getText());
+                pst.setString(5, selecteduser);
+                pst.executeUpdate();
+                if(selecteduser.equals(Login.user)){
+                    Login.user=username.getText();
+                }
+                v.remove(selectedIndex);
+                v.add(selectedIndex,username.getText());
+                aclist.setListData(v);
+                //don't forget to set list data
+                //or the list will not get changed
+                err.setText("Success");
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                err.setForeground(Color.red);
+                err.setText("Error");
+            } finally {
+                JdbcUtils.release(conn, pst, null);
+            }
+        }else{
+            //reg
+            try {
+                Reg(username.getText(),password.getText(), Double.parseDouble(tel.getText()),mail.getText());
+                initJlist();
+                selecteduser=username.getText();
+                selectedIndex=v.indexOf(username.getText());
+            } catch (AccountEcho accountEcho) {
+                accountEcho.printStackTrace();
+                err.setText(accountEcho.getEchoaccount()+" has already registered!");
+                err.setForeground(Color.red);
+            }
         }
     }
     private void initComponents() {
@@ -161,6 +242,8 @@ public class DrManage extends JFrame {
         refresh = new JButton();
         del = new JButton();
         err = new JLabel();
+        notice = new JLabel();
+        label6 = new JLabel();
 
         //======== this ========
         var contentPane = getContentPane();
@@ -210,9 +293,6 @@ public class DrManage extends JFrame {
             label5.setText("Mail");
             panel1.add(label5);
             label5.setBounds(new Rectangle(new Point(265, 220), label5.getPreferredSize()));
-
-            //---- username ----
-            username.setEditable(false);
             panel1.add(username);
             username.setBounds(360, 95, 160, username.getPreferredSize().height);
             panel1.add(password);
@@ -244,6 +324,17 @@ public class DrManage extends JFrame {
             err.setHorizontalAlignment(SwingConstants.CENTER);
             panel1.add(err);
             err.setBounds(205, 390, 440, 60);
+
+            //---- notice ----
+            notice.setText("Notice: if you want to add new user");
+            notice.setHorizontalAlignment(SwingConstants.CENTER);
+            panel1.add(notice);
+            notice.setBounds(220, 270, 390, 30);
+
+            //---- label6 ----
+            label6.setText("please click the refresh button and do not select any account");
+            panel1.add(label6);
+            label6.setBounds(new Rectangle(new Point(225, 305), label6.getPreferredSize()));
 
             {
                 // compute preferred size
@@ -300,5 +391,7 @@ public class DrManage extends JFrame {
     private JButton refresh;
     private JButton del;
     private JLabel err;
+    private JLabel notice;
+    private JLabel label6;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
