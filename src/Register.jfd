@@ -109,20 +109,6 @@ new FormModel {
 					"y": 255
 					"width": 165
 				} )
-				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "label4"
-					"text": "Optional"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"x": 430
-					"y": 215
-				} )
-				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "label5"
-					"text": "Optional"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"x": 430
-					"y": 260
-				} )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"x": 0
 				"y": 0

@@ -110,8 +110,6 @@ public class Register extends JFrame {
         l5 = new JLabel();
         tel = new JTextField();
         mail = new JTextField();
-        label4 = new JLabel();
-        label5 = new JLabel();
 
         //======== this ========
         var contentPane = getContentPane();
@@ -178,16 +176,6 @@ public class Register extends JFrame {
             panel1.add(mail);
             mail.setBounds(240, 255, 165, mail.getPreferredSize().height);
 
-            //---- label4 ----
-            label4.setText("Optional");
-            panel1.add(label4);
-            label4.setBounds(new Rectangle(new Point(430, 215), label4.getPreferredSize()));
-
-            //---- label5 ----
-            label5.setText("Optional");
-            panel1.add(label5);
-            label5.setBounds(new Rectangle(new Point(430, 260), label5.getPreferredSize()));
-
             {
                 // compute preferred size
                 Dimension preferredSize = new Dimension();
@@ -241,8 +229,6 @@ public class Register extends JFrame {
     private JLabel l5;
     private JTextField tel;
     private JTextField mail;
-    private JLabel label4;
-    private JLabel label5;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
 class AccountEcho extends Exception{
