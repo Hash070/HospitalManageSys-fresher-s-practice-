@@ -63,6 +63,29 @@ public class Login extends JFrame {
         reg.setDefaultCloseOperation(3);
         reg.setVisible(true);
     }
+
+    private void loginKeyPressed(KeyEvent e) {
+        // TODO add your code here
+        if((char)e.getKeyChar()==KeyEvent.VK_ENTER){
+
+        }
+    }
+
+    private void panel1KeyPressed(KeyEvent e) {
+        // TODO add your code here
+        if((char)e.getKeyChar()==KeyEvent.VK_ENTER){
+            System.out.println("enter key pressed");
+        }
+    }
+
+    private void pwKeyPressed(KeyEvent e) {
+        // TODO add your code here
+        if((char)e.getKeyChar()==KeyEvent.VK_ENTER){
+            System.out.println("Enter key pressed");
+            ActionEvent e1 = null;
+            loginActionPerformed(e1);
+        }//success!
+    }
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         panel1 = new JPanel();
@@ -81,6 +104,12 @@ public class Login extends JFrame {
 
         //======== panel1 ========
         {
+            panel1.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    panel1KeyPressed(e);
+                }
+            });
             panel1.setLayout(null);
 
             //---- reg ----
@@ -100,12 +129,26 @@ public class Login extends JFrame {
             l2.setBounds(new Rectangle(new Point(105, 175), l2.getPreferredSize()));
             panel1.add(username);
             username.setBounds(225, 110, 175, 30);
+
+            //---- pw ----
+            pw.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    pwKeyPressed(e);
+                }
+            });
             panel1.add(pw);
             pw.setBounds(225, 165, 175, 30);
 
             //---- login ----
             login.setText("Login");
             login.addActionListener(e -> loginActionPerformed(e));
+            login.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    loginKeyPressed(e);
+                }
+            });
             panel1.add(login);
             login.setBounds(new Rectangle(new Point(220, 255), login.getPreferredSize()));
 
