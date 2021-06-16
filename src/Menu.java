@@ -48,10 +48,18 @@ public class Menu extends JFrame {
         d.setVisible(true);
     }
 
+    private void druginfoActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        this.dispose();
+        DrugManage d=new DrugManage();
+        d.setDefaultCloseOperation(3);
+        d.setVisible(true);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         panel1 = new JPanel();
-        button1 = new JButton();
+        druginfo = new JButton();
         button2 = new JButton();
         usermanage = new JButton();
         personal = new JButton();
@@ -68,10 +76,11 @@ public class Menu extends JFrame {
         {
             panel1.setLayout(null);
 
-            //---- button1 ----
-            button1.setText("\u836f\u54c1\u4fe1\u606f\u7ba1\u7406");
-            panel1.add(button1);
-            button1.setBounds(new Rectangle(new Point(50, 40), button1.getPreferredSize()));
+            //---- druginfo ----
+            druginfo.setText("\u836f\u54c1\u4fe1\u606f\u7ba1\u7406");
+            druginfo.addActionListener(e -> druginfoActionPerformed(e));
+            panel1.add(druginfo);
+            druginfo.setBounds(new Rectangle(new Point(50, 40), druginfo.getPreferredSize()));
 
             //---- button2 ----
             button2.setText("\u60a3\u8005\u4fe1\u606f\u7ba1\u7406");
@@ -107,9 +116,9 @@ public class Menu extends JFrame {
             exit.setBounds(75, 370, 65, 65);
 
             //---- label1 ----
-            label1.setText("\u767b\u51fa");
+            label1.setText("LogOut");
             panel1.add(label1);
-            label1.setBounds(new Rectangle(new Point(95, 440), label1.getPreferredSize()));
+            label1.setBounds(new Rectangle(new Point(85, 440), label1.getPreferredSize()));
 
             {
                 // compute preferred size
@@ -150,7 +159,7 @@ public class Menu extends JFrame {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private JPanel panel1;
-    private JButton button1;
+    private JButton druginfo;
     private JButton button2;
     private JButton usermanage;
     private JButton personal;

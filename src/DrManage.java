@@ -269,7 +269,7 @@ public class DrManage extends JFrame {
             scrollPane1.setBounds(45, 60, 155, 320);
 
             //---- back ----
-            back.setText("back");
+            back.setText("Back");
             back.addActionListener(e -> backActionPerformed(e));
             panel1.add(back);
             back.setBounds(new Rectangle(new Point(5, 5), back.getPreferredSize()));
