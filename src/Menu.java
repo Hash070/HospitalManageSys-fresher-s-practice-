@@ -64,6 +64,14 @@ public class Menu extends JFrame {
         d.setVisible(true);
     }
 
+    private void helpActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        this.dispose();
+        Help d=new Help();
+        d.setDefaultCloseOperation(3);
+        d.setVisible(true);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         panel1 = new JPanel();
@@ -71,7 +79,7 @@ public class Menu extends JFrame {
         patient = new JButton();
         usermanage = new JButton();
         personal = new JButton();
-        button5 = new JButton();
+        help = new JButton();
         title = new JLabel();
         exit = new JButton();
         label1 = new JLabel();
@@ -108,10 +116,11 @@ public class Menu extends JFrame {
             panel1.add(personal);
             personal.setBounds(new Rectangle(new Point(65, 190), personal.getPreferredSize()));
 
-            //---- button5 ----
-            button5.setText("\u5e2e\u52a9");
-            panel1.add(button5);
-            button5.setBounds(new Rectangle(new Point(70, 240), button5.getPreferredSize()));
+            //---- help ----
+            help.setText("\u5e2e\u52a9");
+            help.addActionListener(e -> helpActionPerformed(e));
+            panel1.add(help);
+            help.setBounds(new Rectangle(new Point(70, 240), help.getPreferredSize()));
 
             //---- title ----
             title.setText("Menu");
@@ -172,7 +181,7 @@ public class Menu extends JFrame {
     private JButton patient;
     private JButton usermanage;
     private JButton personal;
-    private JButton button5;
+    private JButton help;
     private JLabel title;
     private JButton exit;
     private JLabel label1;

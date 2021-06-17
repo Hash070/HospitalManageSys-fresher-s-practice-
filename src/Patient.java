@@ -1,9 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Vector;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,9 +15,10 @@ import javax.swing.table.TableModel;
  * @author a
  */
 public class Patient extends JFrame {
+    int currentId=-1;
     public Patient() {
         initComponents();
-
+        initTable();
     }
     public void initTable() {
         infotable.setEnabled(false);
@@ -76,6 +74,81 @@ public class Patient extends JFrame {
         initTable();
     }
 
+    private void manageActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        p1.setVisible(false);
+        p2.setVisible(true);
+        initTable();
+    }
+
+    private void searchActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        err.setText("");
+
+        currentId = Integer.parseInt(idInput.getText());
+        Connection conn = null;
+        PreparedStatement pst=null;
+        ResultSet rs = null;
+        try {
+            conn =JdbcUtils.getConnection();
+            pst=conn.prepareStatement("SELECT * FROM `HostipalDB`.`Patient` WHERE id = ?");
+            pst.setInt(1,currentId);
+            rs=pst.executeQuery();
+            if (rs.next()){
+                id.setText(rs.getString("id"));
+                name.setText(rs.getString("name"));
+                gender.setText(rs.getString("gender"));
+                disease.setText(rs.getString("disease"));
+                err.setText("Success");
+            }else{
+                err.setText("Not Found");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            JdbcUtils.release(conn,pst,rs);
+        }
+    }
+
+    private void refreshActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        id.setText("");
+        name.setText("");
+        gender.setText("");
+        disease.setText("");
+        idInput.setText("");
+        err.setText("");
+        err1.setText("");
+        currentId=-1;
+    }
+
+    private void saveActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        Connection conn = null;
+        PreparedStatement pst=null;
+        PreparedStatement pst1=null;
+        ResultSet rs = null;
+        try {
+            conn =JdbcUtils.getConnection();
+            pst1 = conn.prepareStatement("DELETE FROM `HostipalDB`.`Patient` WHERE `id` = ?");
+            pst1.setInt(1,currentId);
+            pst1.executeUpdate();
+            pst = conn.prepareStatement("INSERT INTO `HostipalDB`.`Patient`(`id`, `name`, `gender`, `disease`) VALUES (?,?,?,?)");
+            pst.setInt(1, Integer.parseInt(id.getText()));
+            pst.setString(2,name.getText());
+            pst.setString(3,gender.getText());
+            pst.setString(4,disease.getText());
+            pst.executeUpdate();
+            pst1.close();
+            err1.setText("Success");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally{
+            JdbcUtils.release(conn,pst,rs);
+            currentId = -1;
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         panel1 = new JPanel();
@@ -85,7 +158,7 @@ public class Patient extends JFrame {
         p1 = new JPanel();
         scrollPane2 = new JScrollPane();
         infotable = new JTable();
-        label1 = new JLabel();
+        title = new JLabel();
         p2 = new JPanel();
         search = new JButton();
         label2 = new JLabel();
@@ -95,14 +168,13 @@ public class Patient extends JFrame {
         label4 = new JLabel();
         label5 = new JLabel();
         label6 = new JLabel();
-        textField1 = new JTextField();
-        textField2 = new JTextField();
-        textField3 = new JTextField();
-        textField4 = new JTextField();
-        button1 = new JButton();
-        button2 = new JButton();
-        scrollPane1 = new JScrollPane();
-        list1 = new JList();
+        id = new JTextField();
+        name = new JTextField();
+        gender = new JTextField();
+        disease = new JTextField();
+        save = new JButton();
+        refresh = new JButton();
+        err1 = new JLabel();
 
         //======== this ========
         var contentPane = getContentPane();
@@ -126,12 +198,12 @@ public class Patient extends JFrame {
 
             //---- manage ----
             manage.setText("InfoManage");
+            manage.addActionListener(e -> manageActionPerformed(e));
             panel1.add(manage);
             manage.setBounds(5, 260, 100, manage.getPreferredSize().height);
 
             //======== p1 ========
             {
-                p1.setVisible(false);
                 p1.setLayout(null);
 
                 //======== scrollPane2 ========
@@ -159,17 +231,19 @@ public class Patient extends JFrame {
             panel1.add(p1);
             p1.setBounds(110, 50, 675, 480);
 
-            //---- label1 ----
-            label1.setText("Patient Manage");
-            panel1.add(label1);
-            label1.setBounds(new Rectangle(new Point(345, 15), label1.getPreferredSize()));
+            //---- title ----
+            title.setText("Patient Manage");
+            panel1.add(title);
+            title.setBounds(new Rectangle(new Point(345, 15), title.getPreferredSize()));
 
             //======== p2 ========
             {
+                p2.setVisible(false);
                 p2.setLayout(null);
 
                 //---- search ----
                 search.setText("Search");
+                search.addActionListener(e -> searchActionPerformed(e));
                 p2.add(search);
                 search.setBounds(new Rectangle(new Point(420, 45), search.getPreferredSize()));
 
@@ -188,40 +262,47 @@ public class Patient extends JFrame {
                 //---- label3 ----
                 label3.setText("ID");
                 p2.add(label3);
-                label3.setBounds(new Rectangle(new Point(145, 100), label3.getPreferredSize()));
+                label3.setBounds(new Rectangle(new Point(230, 120), label3.getPreferredSize()));
 
                 //---- label4 ----
                 label4.setText("Name");
                 p2.add(label4);
-                label4.setBounds(new Rectangle(new Point(145, 145), label4.getPreferredSize()));
+                label4.setBounds(new Rectangle(new Point(230, 170), label4.getPreferredSize()));
 
                 //---- label5 ----
                 label5.setText("Gender");
                 p2.add(label5);
-                label5.setBounds(new Rectangle(new Point(140, 185), label5.getPreferredSize()));
+                label5.setBounds(new Rectangle(new Point(230, 220), label5.getPreferredSize()));
 
                 //---- label6 ----
                 label6.setText("Disease");
                 p2.add(label6);
-                label6.setBounds(new Rectangle(new Point(140, 235), label6.getPreferredSize()));
-                p2.add(textField1);
-                textField1.setBounds(250, 95, 220, textField1.getPreferredSize().height);
-                p2.add(textField2);
-                textField2.setBounds(new Rectangle(new Point(250, 140), textField2.getPreferredSize()));
-                p2.add(textField3);
-                textField3.setBounds(new Rectangle(new Point(310, 190), textField3.getPreferredSize()));
-                p2.add(textField4);
-                textField4.setBounds(new Rectangle(new Point(340, 240), textField4.getPreferredSize()));
+                label6.setBounds(new Rectangle(new Point(230, 270), label6.getPreferredSize()));
+                p2.add(id);
+                id.setBounds(310, 110, 220, id.getPreferredSize().height);
+                p2.add(name);
+                name.setBounds(310, 160, 220, name.getPreferredSize().height);
+                p2.add(gender);
+                gender.setBounds(310, 210, 220, gender.getPreferredSize().height);
+                p2.add(disease);
+                disease.setBounds(310, 260, 220, disease.getPreferredSize().height);
 
-                //---- button1 ----
-                button1.setText("text");
-                p2.add(button1);
-                button1.setBounds(new Rectangle(new Point(245, 355), button1.getPreferredSize()));
+                //---- save ----
+                save.setText("Save");
+                save.addActionListener(e -> saveActionPerformed(e));
+                p2.add(save);
+                save.setBounds(new Rectangle(new Point(260, 340), save.getPreferredSize()));
 
-                //---- button2 ----
-                button2.setText("text");
-                p2.add(button2);
-                button2.setBounds(new Rectangle(new Point(380, 360), button2.getPreferredSize()));
+                //---- refresh ----
+                refresh.setText("Refresh");
+                refresh.addActionListener(e -> refreshActionPerformed(e));
+                p2.add(refresh);
+                refresh.setBounds(new Rectangle(new Point(415, 340), refresh.getPreferredSize()));
+
+                //---- err1 ----
+                err1.setHorizontalAlignment(SwingConstants.CENTER);
+                p2.add(err1);
+                err1.setBounds(100, 380, 535, 70);
 
                 {
                     // compute preferred size
@@ -275,12 +356,8 @@ public class Patient extends JFrame {
         }
         pack();
         setLocationRelativeTo(getOwner());
-
-        //======== scrollPane1 ========
-        {
-            scrollPane1.setViewportView(list1);
-        }
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
+
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
@@ -291,7 +368,7 @@ public class Patient extends JFrame {
     private JPanel p1;
     private JScrollPane scrollPane2;
     private JTable infotable;
-    private JLabel label1;
+    private JLabel title;
     private JPanel p2;
     private JButton search;
     private JLabel label2;
@@ -301,13 +378,12 @@ public class Patient extends JFrame {
     private JLabel label4;
     private JLabel label5;
     private JLabel label6;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTextField textField4;
-    private JButton button1;
-    private JButton button2;
-    private JScrollPane scrollPane1;
-    private JList list1;
+    private JTextField id;
+    private JTextField name;
+    private JTextField gender;
+    private JTextField disease;
+    private JButton save;
+    private JButton refresh;
+    private JLabel err1;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

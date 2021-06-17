@@ -16,7 +16,7 @@ import javax.swing.table.TableModel;
  */
 public class DrugManage extends JFrame {
 //    public Vector v1;
-    int currentId=0;
+    int currentId=-1;
     public DrugManage() {
         initComponents();
         initTable();
@@ -97,15 +97,16 @@ public class DrugManage extends JFrame {
     private void searchActionPerformed(ActionEvent e) {
         // TODO add your code here
         result.setText("");
+        err.setText("");
         finder.setVisible(true);
         info.setVisible(false);
-        drugid.setText("");
-        drugname.setText("");
-        drugprice.setText("");
-        quantity.setText("");
-        location.setText("");
-        origin.setText("");
-        searchtext.setText("");
+//        drugid.setText("");
+//        drugname.setText("");
+//        drugprice.setText("");
+//        quantity.setText("");
+//        location.setText("");
+//        origin.setText("");
+//        searchtext.setText("");
     }
 
     private void doitActionPerformed(ActionEvent e) {
@@ -156,6 +157,8 @@ public class DrugManage extends JFrame {
         try {
             conn=JdbcUtils.getConnection();
             st=conn.prepareStatement("DELETE FROM `HostipalDB`.`Drug` WHERE `drugid` = ?");
+            //if drug id not found , no row will be affected.
+            //so there is no errors.
             st.setInt(1,currentId);
             st.executeUpdate();
             pst = conn.prepareStatement("INSERT INTO `HostipalDB`.`Drug`(`drugid`, `drugname`, `drugprice`, `quantity`, `location`, `origin`) VALUES (?,?,?,?,?,?)");
@@ -168,8 +171,7 @@ public class DrugManage extends JFrame {
             pst.executeUpdate();
             err.setText("Success");
             err.setForeground(Color.green);
-
-
+            currentId = -1;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             err.setText("Error");
@@ -196,6 +198,9 @@ public class DrugManage extends JFrame {
         location.setText("");
         origin.setText("");
         searchtext.setText("");
+        err.setText("");
+        result.setText("");
+        currentId=-1;
     }
 
     private void initComponents() {
@@ -285,7 +290,6 @@ public class DrugManage extends JFrame {
 
             //======== info ========
             {
-                info.setVisible(false);
                 info.setLayout(null);
 
                 //======== scrollPane1 ========
@@ -315,6 +319,7 @@ public class DrugManage extends JFrame {
 
             //======== finder ========
             {
+                finder.setVisible(false);
                 finder.setLayout(null);
                 finder.add(searchtext);
                 searchtext.setBounds(235, 45, 185, searchtext.getPreferredSize().height);

@@ -27,6 +27,7 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "manage"
 					"text": "InfoManage"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "manageActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"x": 5
 					"y": 260
@@ -34,7 +35,6 @@ new FormModel {
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
 					name: "p1"
-					"visible": false
 					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 						name: "scrollPane2"
 						add( new FormComponent( "javax.swing.JTable" ) {
@@ -53,7 +53,7 @@ new FormModel {
 					"height": 480
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "label1"
+					name: "title"
 					"text": "Patient Manage"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"x": 345
@@ -61,9 +61,11 @@ new FormModel {
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
 					name: "p2"
+					"visible": false
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "search"
 						"text": "Search"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "searchActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 						"x": 420
 						"y": 45
@@ -95,68 +97,82 @@ new FormModel {
 						name: "label3"
 						"text": "ID"
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 145
-						"y": 100
+						"x": 230
+						"y": 120
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "label4"
 						"text": "Name"
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 145
-						"y": 145
+						"x": 230
+						"y": 170
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "label5"
 						"text": "Gender"
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 140
-						"y": 185
+						"x": 230
+						"y": 220
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "label6"
 						"text": "Disease"
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 140
-						"y": 235
+						"x": 230
+						"y": 270
 					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "textField1"
+						name: "id"
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 250
-						"y": 95
+						"x": 310
+						"y": 110
 						"width": 220
 					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "textField2"
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 250
-						"y": 140
-					} )
-					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "textField3"
+						name: "name"
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 						"x": 310
-						"y": 190
+						"y": 160
+						"width": 220
 					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "textField4"
+						name: "gender"
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 340
-						"y": 240
+						"x": 310
+						"y": 210
+						"width": 220
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "disease"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 310
+						"y": 260
+						"width": 220
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "button1"
-						"text": "text"
+						name: "save"
+						"text": "Save"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "saveActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 245
-						"y": 355
+						"x": 260
+						"y": 340
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "button2"
-						"text": "text"
+						name: "refresh"
+						"text": "Refresh"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "refreshActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 380
-						"y": 360
+						"x": 415
+						"y": 340
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "err1"
+						"horizontalAlignment": 0
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 100
+						"y": 380
+						"width": 535
+						"height": 70
 					} )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"width": 675
@@ -173,15 +189,6 @@ new FormModel {
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
 			"size": new java.awt.Dimension( 785, 550 )
-		} )
-		add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-			name: "scrollPane1"
-			add( new FormComponent( "javax.swing.JList" ) {
-				name: "list1"
-			} )
-		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 475, 570 )
-			"size": new java.awt.Dimension( 120, 220 )
 		} )
 	}
 }
