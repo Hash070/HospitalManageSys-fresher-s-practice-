@@ -1,5 +1,9 @@
+import com.mysql.jdbc.SocketMetadata;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.net.URL;
 import javax.swing.*;
 /*
  * Created by JFormDesigner on Thu Jun 17 09:02:35 CST 2021
@@ -11,10 +15,22 @@ import javax.swing.*;
  * @author a
  */
 public class Help extends JFrame {
-    String helper="";
+//    String helper="";
+    Font font = new Font(".AppleSystemUIFont",Font.PLAIN,12);
+    URL url = Help.class.getResource("Helper.html");
     public Help() {
         initComponents();
-        info.setText(helper);
+        System.out.println(url);
+        info.setEditable(false);
+        info.setFont(font);
+        try {
+            info.setPage(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            info.setContentType("text/html");
+            info.setText("<html>page not found</html>");
+        }
+//        info.setText(helper);
     }
 
     private void backActionPerformed(ActionEvent e) {
@@ -28,9 +44,9 @@ public class Help extends JFrame {
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         panel1 = new JPanel();
-        scrollPane1 = new JScrollPane();
-        info = new JTextArea();
         back = new JButton();
+        scrollPane1 = new JScrollPane();
+        info = new JEditorPane();
 
         //======== this ========
         var contentPane = getContentPane();
@@ -40,21 +56,18 @@ public class Help extends JFrame {
         {
             panel1.setLayout(null);
 
-            //======== scrollPane1 ========
-            {
-
-                //---- info ----
-                info.setEditable(false);
-                scrollPane1.setViewportView(info);
-            }
-            panel1.add(scrollPane1);
-            scrollPane1.setBounds(55, 40, 680, 430);
-
             //---- back ----
             back.setText("Back");
             back.addActionListener(e -> backActionPerformed(e));
             panel1.add(back);
             back.setBounds(new Rectangle(new Point(5, 5), back.getPreferredSize()));
+
+            //======== scrollPane1 ========
+            {
+                scrollPane1.setViewportView(info);
+            }
+            panel1.add(scrollPane1);
+            scrollPane1.setBounds(40, 40, 715, 450);
 
             {
                 // compute preferred size
@@ -95,8 +108,8 @@ public class Help extends JFrame {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private JPanel panel1;
-    private JScrollPane scrollPane1;
-    private JTextArea info;
     private JButton back;
+    private JScrollPane scrollPane1;
+    private JEditorPane info;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

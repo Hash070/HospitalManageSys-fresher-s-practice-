@@ -68,7 +68,7 @@ public class Register extends JFrame {
     private void confirmActionPerformed(ActionEvent e) {
         // TODO add your code here
         String verifycode = verify.getText();
-        if (verifycode.equals("ICCID10000"))
+        if (verifycode.equals("RJGC2002"))
         {
             err.setText("");
             //refresh label err every time

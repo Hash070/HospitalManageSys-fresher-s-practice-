@@ -3,6 +3,7 @@ import java.awt.event.*;
 import java.sql.*;
 import java.util.Vector;
 import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 /*
@@ -16,12 +17,16 @@ import javax.swing.table.TableModel;
  */
 public class Patient extends JFrame {
     int currentId=-1;
+    int selecteduser=-1;
+    int selectedIndex=-1;
+    Vector<Integer> v;
     public Patient() {
         initComponents();
         initTable();
     }
     public void initTable() {
-        infotable.setEnabled(false);
+        infotable.setEnabled(true);
+        infotable.setSelectionMode(0);
         //this is the method to set it read-only Remember key word "Enable"
         String[] column = {"病人编号","姓名","性别","疾病"};
         Object[][] rowData = new Object[100][4];
@@ -59,6 +64,32 @@ public class Patient extends JFrame {
         infotable.setModel(data);
     }
 
+    public void initList(){
+        v=new Vector<Integer>();
+        // the elder v info will be cleaned by java
+        // make sure the v is always new when init
+        selectedIndex=-1;
+        Connection conn=null;
+        PreparedStatement pst=null;
+        ResultSet rs=null;
+        String sql=null;
+        try {
+            sql = "select * from Patient";
+            conn = JdbcUtils.getConnection();
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            for (int i=0; rs.next();i++){
+                v.add(Integer.valueOf(rs.getString("id")));
+            }
+            patientlist.setListData(v);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            err.setText("Un,some err occurred");
+            err.setForeground(Color.red);
+        }finally{
+            JdbcUtils.release(conn,pst,rs);
+        }
+    }
     private void backActionPerformed(ActionEvent e) {
         // TODO add your code here
         this.dispose();
@@ -71,6 +102,7 @@ public class Patient extends JFrame {
         // TODO add your code here
         p1.setVisible(true);
         p2.setVisible(false);
+        p3.setVisible(false);
         initTable();
     }
 
@@ -78,7 +110,7 @@ public class Patient extends JFrame {
         // TODO add your code here
         p1.setVisible(false);
         p2.setVisible(true);
-        initTable();
+        p3.setVisible(false);
     }
 
     private void searchActionPerformed(ActionEvent e) {
@@ -149,6 +181,51 @@ public class Patient extends JFrame {
         }
     }
 
+    private void delActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        {
+            err2.setText("");
+            Connection conn = null;
+            PreparedStatement pst = null;
+            ResultSet rs = null;
+            try {
+                conn = JdbcUtils.getConnection();
+                String sql = "DELETE FROM `HostipalDB`.`Patient` WHERE `id` = ?";
+                pst = conn.prepareStatement(sql);
+                pst.setInt(1, selecteduser);
+                pst.executeUpdate();
+                err2.setText("Success");
+                err2.setForeground(Color.green);
+                v.remove(selectedIndex);
+                patientlist.setListData(v);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                err2.setText("Un,Some error occurred,Please try to login again");
+                err2.setForeground(Color.red);
+            } finally {
+                JdbcUtils.release(conn, pst, rs);
+            }
+        }
+    }
+
+    private void patientlistValueChanged(ListSelectionEvent e) {
+        // TODO add your code here
+        if(patientlist.getValueIsAdjusting()){
+            Object[] selected = patientlist.getSelectedValues();
+            selecteduser= Integer.parseInt(selected[0].toString());
+            selectedIndex=patientlist.getSelectedIndex();
+        }
+    }
+
+    private void manaActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        p1.setVisible(false);
+        p2.setVisible(false);
+        p3.setVisible(true);
+        initList();
+        err2.setText("");
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         panel1 = new JPanel();
@@ -175,6 +252,13 @@ public class Patient extends JFrame {
         save = new JButton();
         refresh = new JButton();
         err1 = new JLabel();
+        mana = new JButton();
+        p3 = new JPanel();
+        scrollPane1 = new JScrollPane();
+        patientlist = new JList();
+        del = new JButton();
+        err2 = new JLabel();
+        label1 = new JLabel();
 
         //======== this ========
         var contentPane = getContentPane();
@@ -322,6 +406,62 @@ public class Patient extends JFrame {
             panel1.add(p2);
             p2.setBounds(110, 50, 675, 475);
 
+            //---- mana ----
+            mana.setText("Leave");
+            mana.addActionListener(e -> manaActionPerformed(e));
+            panel1.add(mana);
+            mana.setBounds(5, 365, 100, mana.getPreferredSize().height);
+
+            //======== p3 ========
+            {
+                p3.setVisible(false);
+                p3.setLayout(null);
+
+                //======== scrollPane1 ========
+                {
+
+                    //---- patientlist ----
+                    patientlist.addListSelectionListener(e -> patientlistValueChanged(e));
+                    scrollPane1.setViewportView(patientlist);
+                }
+                p3.add(scrollPane1);
+                scrollPane1.setBounds(235, 50, 185, 295);
+
+                //---- del ----
+                del.setText("Del");
+                del.addActionListener(e -> delActionPerformed(e));
+                p3.add(del);
+                del.setBounds(new Rectangle(new Point(285, 380), del.getPreferredSize()));
+
+                //---- err2 ----
+                err2.setHorizontalAlignment(SwingConstants.CENTER);
+                p3.add(err2);
+                err2.setBounds(40, 410, 570, 50);
+
+                //---- label1 ----
+                label1.setText("ID");
+                label1.setHorizontalAlignment(SwingConstants.CENTER);
+                p3.add(label1);
+                label1.setBounds(280, 10, 100, 25);
+
+                {
+                    // compute preferred size
+                    Dimension preferredSize = new Dimension();
+                    for(int i = 0; i < p3.getComponentCount(); i++) {
+                        Rectangle bounds = p3.getComponent(i).getBounds();
+                        preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+                        preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+                    }
+                    Insets insets = p3.getInsets();
+                    preferredSize.width += insets.right;
+                    preferredSize.height += insets.bottom;
+                    p3.setMinimumSize(preferredSize);
+                    p3.setPreferredSize(preferredSize);
+                }
+            }
+            panel1.add(p3);
+            p3.setBounds(110, 50, 675, 475);
+
             {
                 // compute preferred size
                 Dimension preferredSize = new Dimension();
@@ -385,5 +525,12 @@ public class Patient extends JFrame {
     private JButton save;
     private JButton refresh;
     private JLabel err1;
+    private JButton mana;
+    private JPanel p3;
+    private JScrollPane scrollPane1;
+    private JList patientlist;
+    private JButton del;
+    private JLabel err2;
+    private JLabel label1;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

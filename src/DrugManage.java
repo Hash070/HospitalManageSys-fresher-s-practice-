@@ -3,6 +3,7 @@ import java.awt.event.*;
 import java.sql.*;
 import java.util.Vector;
 import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 /*
@@ -17,6 +18,9 @@ import javax.swing.table.TableModel;
 public class DrugManage extends JFrame {
 //    public Vector v1;
     int currentId=-1;
+    int selectedIndex=-1;
+    int selecteduser=-1;
+    Vector<Integer> v;
     public DrugManage() {
         initComponents();
         initTable();
@@ -36,7 +40,8 @@ public class DrugManage extends JFrame {
             * 1
             * 2
          */
-        infotable.setEnabled(false);
+        infotable.setEnabled(true);
+        infotable.setSelectionMode(0);
         //this is the method to set it read-only Remember key word "Enable"
         String[] column = {"药品编号","药品名称","药品价格","仓库位置","药品数量","药品来源"};
         Object[][] rowData = new Object[100][6];
@@ -79,6 +84,34 @@ public class DrugManage extends JFrame {
         TableModel data=new DefaultTableModel(rowData,column);
         infotable.setModel(data);
     }
+
+    public void initList(){
+        v=new Vector<Integer>();
+        // the elder v info will be cleaned by java
+        // make sure the v is always new when init
+        selectedIndex=-1;
+        Connection conn=null;
+        PreparedStatement pst=null;
+        ResultSet rs=null;
+        String sql=null;
+        try {
+            sql = "select * from Drug";
+            conn = JdbcUtils.getConnection();
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            for (int i=0; rs.next();i++){
+                v.add(Integer.valueOf(rs.getString("drugid")));
+            }
+            dlist.setListData(v);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            err33.setText("Un,some err occurred");
+            err33.setForeground(Color.red);
+        }finally{
+            JdbcUtils.release(conn,pst,rs);
+        }
+    }
+
     private void backActionPerformed(ActionEvent e) {
         // TODO add your code here
         this.dispose();
@@ -91,6 +124,7 @@ public class DrugManage extends JFrame {
         // TODO add your code here
         finder.setVisible(false);
         info.setVisible(true);
+        Manage.setVisible(false);
         initTable();
     }
 
@@ -100,6 +134,7 @@ public class DrugManage extends JFrame {
         err.setText("");
         finder.setVisible(true);
         info.setVisible(false);
+        Manage.setVisible(false);
 //        drugid.setText("");
 //        drugname.setText("");
 //        drugprice.setText("");
@@ -157,8 +192,6 @@ public class DrugManage extends JFrame {
         try {
             conn=JdbcUtils.getConnection();
             st=conn.prepareStatement("DELETE FROM `HostipalDB`.`Drug` WHERE `drugid` = ?");
-            //if drug id not found , no row will be affected.
-            //so there is no errors.
             st.setInt(1,currentId);
             st.executeUpdate();
             pst = conn.prepareStatement("INSERT INTO `HostipalDB`.`Drug`(`drugid`, `drugname`, `drugprice`, `quantity`, `location`, `origin`) VALUES (?,?,?,?,?,?)");
@@ -203,6 +236,49 @@ public class DrugManage extends JFrame {
         currentId=-1;
     }
 
+    private void manaActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        finder.setVisible(false);
+        info.setVisible(false);
+        Manage.setVisible(true);
+        initList();
+        err33.setText("");
+    }
+
+    private void dlistValueChanged(ListSelectionEvent e) {
+        // TODO add your code here
+        if(dlist.getValueIsAdjusting()){
+            Object[] selected = dlist.getSelectedValues();
+            selecteduser= Integer.parseInt(selected[0].toString());
+            selectedIndex=dlist.getSelectedIndex();
+        }
+    }
+
+    private void delActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        err33.setText("");
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcUtils.getConnection();
+            String sql = "DELETE FROM `HostipalDB`.`Drug` WHERE `drugid` = ?";
+            pst = conn.prepareStatement(sql);
+            pst.setInt(1, selecteduser);
+            pst.executeUpdate();
+            err33.setText("Success");
+            err33.setForeground(Color.green);
+            v.remove(selectedIndex);
+            dlist.setListData(v);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            err33.setText("Un,Some error occurred,Please try to login again");
+            err33.setForeground(Color.red);
+        } finally {
+            JdbcUtils.release(conn, pst, rs);
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         panel1 = new JPanel();
@@ -211,6 +287,7 @@ public class DrugManage extends JFrame {
         menupanel = new JPanel();
         druginfo = new JButton();
         search = new JButton();
+        mana = new JButton();
         info = new JPanel();
         scrollPane1 = new JScrollPane();
         infotable = new JTable();
@@ -234,6 +311,11 @@ public class DrugManage extends JFrame {
         label7 = new JLabel();
         result = new JLabel();
         refresh = new JButton();
+        Manage = new JPanel();
+        scrollPane2 = new JScrollPane();
+        dlist = new JList();
+        del = new JButton();
+        err33 = new JLabel();
 
         //======== this ========
         var contentPane = getContentPane();
@@ -269,6 +351,12 @@ public class DrugManage extends JFrame {
                 search.addActionListener(e -> searchActionPerformed(e));
                 menupanel.add(search);
                 search.setBounds(0, 140, 100, search.getPreferredSize().height);
+
+                //---- mana ----
+                mana.setText("Manage");
+                mana.addActionListener(e -> manaActionPerformed(e));
+                menupanel.add(mana);
+                mana.setBounds(0, 215, 100, mana.getPreferredSize().height);
 
                 {
                     // compute preferred size
@@ -417,6 +505,50 @@ public class DrugManage extends JFrame {
             panel1.add(finder);
             finder.setBounds(100, 50, 765, 515);
 
+            //======== Manage ========
+            {
+                Manage.setVisible(false);
+                Manage.setLayout(null);
+
+                //======== scrollPane2 ========
+                {
+
+                    //---- dlist ----
+                    dlist.addListSelectionListener(e -> dlistValueChanged(e));
+                    scrollPane2.setViewportView(dlist);
+                }
+                Manage.add(scrollPane2);
+                scrollPane2.setBounds(230, 35, 275, 330);
+
+                //---- del ----
+                del.setText("Delete");
+                del.addActionListener(e -> delActionPerformed(e));
+                Manage.add(del);
+                del.setBounds(new Rectangle(new Point(330, 395), del.getPreferredSize()));
+
+                //---- err33 ----
+                err33.setHorizontalAlignment(SwingConstants.CENTER);
+                Manage.add(err33);
+                err33.setBounds(115, 435, 505, 60);
+
+                {
+                    // compute preferred size
+                    Dimension preferredSize = new Dimension();
+                    for(int i = 0; i < Manage.getComponentCount(); i++) {
+                        Rectangle bounds = Manage.getComponent(i).getBounds();
+                        preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+                        preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+                    }
+                    Insets insets = Manage.getInsets();
+                    preferredSize.width += insets.right;
+                    preferredSize.height += insets.bottom;
+                    Manage.setMinimumSize(preferredSize);
+                    Manage.setPreferredSize(preferredSize);
+                }
+            }
+            panel1.add(Manage);
+            Manage.setBounds(100, 50, 765, 515);
+
             {
                 // compute preferred size
                 Dimension preferredSize = new Dimension();
@@ -461,6 +593,7 @@ public class DrugManage extends JFrame {
     private JPanel menupanel;
     private JButton druginfo;
     private JButton search;
+    private JButton mana;
     private JPanel info;
     private JScrollPane scrollPane1;
     private JTable infotable;
@@ -484,5 +617,10 @@ public class DrugManage extends JFrame {
     private JLabel label7;
     private JLabel result;
     private JButton refresh;
+    private JPanel Manage;
+    private JScrollPane scrollPane2;
+    private JList dlist;
+    private JButton del;
+    private JLabel err33;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
