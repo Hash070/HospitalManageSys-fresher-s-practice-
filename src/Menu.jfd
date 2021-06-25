@@ -12,44 +12,49 @@ new FormModel {
 					"text": "药品信息管理"
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "druginfoActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"x": 50
+					"x": 35
 					"y": 40
+					"width": 150
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "patient"
-					"text": "患者信息管理"
+					"text": "病人信息管理"
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "patientActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"x": 50
+					"x": 35
 					"y": 90
+					"width": 150
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "usermanage"
-					"text": "医生信息管理模块"
+					"text": "医生账户管理"
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "usermanageActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"x": 40
+					"x": 35
 					"y": 140
+					"width": 150
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "personal"
 					"text": "个人信息"
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "personalActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"x": 65
+					"x": 35
 					"y": 190
+					"width": 150
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "help"
 					"text": "帮助"
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "helpActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"x": 70
+					"x": 35
 					"y": 240
+					"width": 150
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "title"
-					"text": "Menu"
+					"text": "主菜单"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"x": 90
 					"y": 15
@@ -66,9 +71,9 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "label1"
-					"text": "LogOut"
+					"text": "返回"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"x": 85
+					"x": 95
 					"y": 440
 				} )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {

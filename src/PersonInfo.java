@@ -105,38 +105,38 @@ public class PersonInfo extends JFrame {
             panel1.setLayout(null);
 
             //---- label1 ----
-            label1.setText("User Information");
+            label1.setText("\u4e2a\u4eba\u4fe1\u606f");
             panel1.add(label1);
-            label1.setBounds(new Rectangle(new Point(270, 20), label1.getPreferredSize()));
+            label1.setBounds(new Rectangle(new Point(290, 20), label1.getPreferredSize()));
 
             //---- label2 ----
-            label2.setText("UserName");
+            label2.setText("\u7528\u6237\u540d");
             panel1.add(label2);
             label2.setBounds(new Rectangle(new Point(140, 80), label2.getPreferredSize()));
 
             //---- label3 ----
-            label3.setText("Password");
+            label3.setText("\u5bc6\u7801");
             panel1.add(label3);
             label3.setBounds(new Rectangle(new Point(140, 120), label3.getPreferredSize()));
 
             //---- label4 ----
-            label4.setText("Telephone");
+            label4.setText("\u7535\u8bdd\u53f7\u7801");
             panel1.add(label4);
             label4.setBounds(new Rectangle(new Point(140, 160), label4.getPreferredSize()));
 
             //---- label5 ----
-            label5.setText("Mail");
+            label5.setText("\u90ae\u7bb1");
             panel1.add(label5);
             label5.setBounds(new Rectangle(new Point(140, 200), label5.getPreferredSize()));
 
             //---- back ----
-            back.setText("back");
+            back.setText("\u8fd4\u56de");
             back.addActionListener(e -> backActionPerformed(e));
             panel1.add(back);
             back.setBounds(new Rectangle(new Point(5, 5), back.getPreferredSize()));
 
             //---- save ----
-            save.setText("Save");
+            save.setText("\u4fdd\u5b58");
             save.addActionListener(e -> saveActionPerformed(e));
             panel1.add(save);
             save.setBounds(new Rectangle(new Point(280, 300), save.getPreferredSize()));

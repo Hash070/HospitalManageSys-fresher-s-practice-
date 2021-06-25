@@ -269,19 +269,19 @@ public class Patient extends JFrame {
             panel1.setLayout(null);
 
             //---- back ----
-            back.setText("Back");
+            back.setText("\u8fd4\u56de");
             back.addActionListener(e -> backActionPerformed(e));
             panel1.add(back);
             back.setBounds(new Rectangle(new Point(5, 5), back.getPreferredSize()));
 
             //---- info ----
-            info.setText("PatientInfo");
+            info.setText("\u75c5\u4eba\u4fe1\u606f");
             info.addActionListener(e -> infoActionPerformed(e));
             panel1.add(info);
             info.setBounds(5, 145, 100, info.getPreferredSize().height);
 
             //---- manage ----
-            manage.setText("InfoManage");
+            manage.setText("\u4fe1\u606f\u7ba1\u7406");
             manage.addActionListener(e -> manageActionPerformed(e));
             panel1.add(manage);
             manage.setBounds(5, 260, 100, manage.getPreferredSize().height);
@@ -316,9 +316,9 @@ public class Patient extends JFrame {
             p1.setBounds(110, 50, 675, 480);
 
             //---- title ----
-            title.setText("Patient Manage");
+            title.setText("\u75c5\u4eba\u7ba1\u7406");
             panel1.add(title);
-            title.setBounds(new Rectangle(new Point(345, 15), title.getPreferredSize()));
+            title.setBounds(new Rectangle(new Point(360, 15), title.getPreferredSize()));
 
             //======== p2 ========
             {
@@ -407,7 +407,7 @@ public class Patient extends JFrame {
             p2.setBounds(110, 50, 675, 475);
 
             //---- mana ----
-            mana.setText("Leave");
+            mana.setText("\u79bb\u9662");
             mana.addActionListener(e -> manaActionPerformed(e));
             panel1.add(mana);
             mana.setBounds(5, 365, 100, mana.getPreferredSize().height);

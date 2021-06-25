@@ -113,18 +113,18 @@ public class Login extends JFrame {
             panel1.setLayout(null);
 
             //---- reg ----
-            reg.setText("Register");
+            reg.setText("\u6ce8\u518c");
             reg.addActionListener(e -> regActionPerformed(e));
             panel1.add(reg);
-            reg.setBounds(new Rectangle(new Point(430, 10), reg.getPreferredSize()));
+            reg.setBounds(new Rectangle(new Point(435, 10), reg.getPreferredSize()));
 
             //---- l1 ----
-            l1.setText("UserName");
+            l1.setText("\u7528\u6237\u540d");
             panel1.add(l1);
             l1.setBounds(new Rectangle(new Point(105, 115), l1.getPreferredSize()));
 
             //---- l2 ----
-            l2.setText("Password");
+            l2.setText("\u5bc6\u7801");
             panel1.add(l2);
             l2.setBounds(new Rectangle(new Point(105, 175), l2.getPreferredSize()));
             panel1.add(username);
@@ -141,7 +141,7 @@ public class Login extends JFrame {
             pw.setBounds(225, 165, 175, 30);
 
             //---- login ----
-            login.setText("Login");
+            login.setText("\u767b\u9646");
             login.addActionListener(e -> loginActionPerformed(e));
             login.addKeyListener(new KeyAdapter() {
                 @Override
@@ -153,7 +153,7 @@ public class Login extends JFrame {
             login.setBounds(new Rectangle(new Point(220, 255), login.getPreferredSize()));
 
             //---- title ----
-            title.setText("Welcome to Hostipal Manage Sys");
+            title.setText("\u533b\u9662\u4fe1\u606f\u7ba1\u7406\u7cfb\u7edf");
             title.setHorizontalTextPosition(SwingConstants.CENTER);
             title.setHorizontalAlignment(SwingConstants.CENTER);
             panel1.add(title);

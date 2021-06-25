@@ -57,7 +57,7 @@ public class Help extends JFrame {
             panel1.setLayout(null);
 
             //---- back ----
-            back.setText("Back");
+            back.setText("\u8fd4\u56de");
             back.addActionListener(e -> backActionPerformed(e));
             panel1.add(back);
             back.setBounds(new Rectangle(new Point(5, 5), back.getPreferredSize()));

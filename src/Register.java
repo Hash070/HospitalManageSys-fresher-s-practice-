@@ -129,50 +129,50 @@ public class Register extends JFrame {
             panel1.setLayout(null);
 
             //---- title ----
-            title.setText("Register Interface");
+            title.setText("\u6ce8\u518c\u754c\u9762");
             panel1.add(title);
-            title.setBounds(new Rectangle(new Point(220, 20), title.getPreferredSize()));
+            title.setBounds(new Rectangle(new Point(245, 20), title.getPreferredSize()));
 
             //---- back ----
-            back.setText("Back");
+            back.setText("\u8fd4\u56de");
             back.addActionListener(e -> backActionPerformed(e));
             panel1.add(back);
             back.setBounds(new Rectangle(new Point(5, 5), back.getPreferredSize()));
 
             //---- l1 ----
-            l1.setText("Name");
+            l1.setText("\u7528\u6237\u540d");
             panel1.add(l1);
             l1.setBounds(new Rectangle(new Point(110, 80), l1.getPreferredSize()));
 
             //---- l2 ----
-            l2.setText("Password");
+            l2.setText("\u5bc6\u7801");
             panel1.add(l2);
             l2.setBounds(new Rectangle(new Point(110, 125), l2.getPreferredSize()));
             panel1.add(username);
             username.setBounds(240, 75, 165, username.getPreferredSize().height);
 
             //---- l3 ----
-            l3.setText("ConfirmPassword");
+            l3.setText("\u786e\u8ba4\u5bc6\u7801");
             panel1.add(l3);
             l3.setBounds(new Rectangle(new Point(110, 170), l3.getPreferredSize()));
 
             //---- confirm ----
-            confirm.setText("Confirm");
+            confirm.setText("\u786e\u8ba4");
             confirm.addActionListener(e -> confirmActionPerformed(e));
             panel1.add(confirm);
-            confirm.setBounds(new Rectangle(new Point(230, 345), confirm.getPreferredSize()));
+            confirm.setBounds(new Rectangle(new Point(240, 345), confirm.getPreferredSize()));
             panel1.add(pw1);
             pw1.setBounds(240, 120, 165, pw1.getPreferredSize().height);
             panel1.add(pw2);
             pw2.setBounds(240, 165, 165, pw2.getPreferredSize().height);
 
             //---- l4 ----
-            l4.setText("Tel");
+            l4.setText("\u7535\u8bdd\u53f7\u7801");
             panel1.add(l4);
             l4.setBounds(new Rectangle(new Point(110, 215), l4.getPreferredSize()));
 
             //---- l5 ----
-            l5.setText("Mail");
+            l5.setText("\u90ae\u7bb1");
             panel1.add(l5);
             l5.setBounds(new Rectangle(new Point(110, 260), l5.getPreferredSize()));
             panel1.add(tel);
@@ -181,7 +181,7 @@ public class Register extends JFrame {
             mail.setBounds(240, 255, 165, mail.getPreferredSize().height);
 
             //---- label1 ----
-            label1.setText("VerifyCode");
+            label1.setText("\u9a8c\u8bc1\u7801");
             panel1.add(label1);
             label1.setBounds(new Rectangle(new Point(110, 305), label1.getPreferredSize()));
 

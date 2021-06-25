@@ -254,9 +254,9 @@ public class DrManage extends JFrame {
             panel1.setLayout(null);
 
             //---- label1 ----
-            label1.setText("Doctor Manage");
+            label1.setText("\u533b\u751f\u7ba1\u7406");
             panel1.add(label1);
-            label1.setBounds(new Rectangle(new Point(285, 10), label1.getPreferredSize()));
+            label1.setBounds(new Rectangle(new Point(300, 10), label1.getPreferredSize()));
 
             //======== scrollPane1 ========
             {
@@ -269,28 +269,28 @@ public class DrManage extends JFrame {
             scrollPane1.setBounds(45, 60, 155, 320);
 
             //---- back ----
-            back.setText("Back");
+            back.setText("\u8fd4\u56de");
             back.addActionListener(e -> backActionPerformed(e));
             panel1.add(back);
             back.setBounds(new Rectangle(new Point(5, 5), back.getPreferredSize()));
 
             //---- label2 ----
-            label2.setText("UserName");
+            label2.setText("\u7528\u6237\u540d");
             panel1.add(label2);
             label2.setBounds(new Rectangle(new Point(265, 100), label2.getPreferredSize()));
 
             //---- label3 ----
-            label3.setText("Password");
+            label3.setText("\u5bc6\u7801");
             panel1.add(label3);
             label3.setBounds(new Rectangle(new Point(265, 140), label3.getPreferredSize()));
 
             //---- label4 ----
-            label4.setText("Telephone");
+            label4.setText("\u7535\u8bdd\u53f7\u7801");
             panel1.add(label4);
             label4.setBounds(new Rectangle(new Point(265, 180), label4.getPreferredSize()));
 
             //---- label5 ----
-            label5.setText("Mail");
+            label5.setText("\u90ae\u7bb1");
             panel1.add(label5);
             label5.setBounds(new Rectangle(new Point(265, 220), label5.getPreferredSize()));
             panel1.add(username);
@@ -303,19 +303,19 @@ public class DrManage extends JFrame {
             mail.setBounds(360, 215, 160, mail.getPreferredSize().height);
 
             //---- save ----
-            save.setText("Save");
+            save.setText("\u4fdd\u5b58");
             save.addActionListener(e -> saveActionPerformed(e));
             panel1.add(save);
             save.setBounds(new Rectangle(new Point(300, 350), save.getPreferredSize()));
 
             //---- refresh ----
-            refresh.setText("Refresh");
+            refresh.setText("\u5237\u65b0");
             refresh.addActionListener(e -> refreshActionPerformed(e));
             panel1.add(refresh);
             refresh.setBounds(new Rectangle(new Point(420, 350), refresh.getPreferredSize()));
 
             //---- del ----
-            del.setText("Delete");
+            del.setText("\u5220\u9664");
             del.addActionListener(e -> delActionPerformed(e));
             panel1.add(del);
             del.setBounds(new Rectangle(new Point(80, 400), del.getPreferredSize()));
@@ -326,15 +326,15 @@ public class DrManage extends JFrame {
             err.setBounds(205, 390, 440, 60);
 
             //---- notice ----
-            notice.setText("Notice: if you want to add new user");
+            notice.setText("\u63d0\u793a\uff1a\u82e5\u9700\u6dfb\u52a0\u65b0\u7528\u6237");
             notice.setHorizontalAlignment(SwingConstants.CENTER);
             panel1.add(notice);
             notice.setBounds(220, 270, 390, 30);
 
             //---- label6 ----
-            label6.setText("please click the refresh button and do not select any account");
+            label6.setText("\u8bf7\u70b9\u8fdb\u5237\u65b0\u6309\u94ae");
             panel1.add(label6);
-            label6.setBounds(new Rectangle(new Point(225, 305), label6.getPreferredSize()));
+            label6.setBounds(new Rectangle(new Point(365, 310), label6.getPreferredSize()));
 
             {
                 // compute preferred size

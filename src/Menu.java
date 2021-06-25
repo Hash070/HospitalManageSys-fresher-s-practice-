@@ -96,34 +96,34 @@ public class Menu extends JFrame {
             druginfo.setText("\u836f\u54c1\u4fe1\u606f\u7ba1\u7406");
             druginfo.addActionListener(e -> druginfoActionPerformed(e));
             panel1.add(druginfo);
-            druginfo.setBounds(new Rectangle(new Point(50, 40), druginfo.getPreferredSize()));
+            druginfo.setBounds(35, 40, 150, druginfo.getPreferredSize().height);
 
             //---- patient ----
-            patient.setText("\u60a3\u8005\u4fe1\u606f\u7ba1\u7406");
+            patient.setText("\u75c5\u4eba\u4fe1\u606f\u7ba1\u7406");
             patient.addActionListener(e -> patientActionPerformed(e));
             panel1.add(patient);
-            patient.setBounds(new Rectangle(new Point(50, 90), patient.getPreferredSize()));
+            patient.setBounds(35, 90, 150, patient.getPreferredSize().height);
 
             //---- usermanage ----
-            usermanage.setText("\u533b\u751f\u4fe1\u606f\u7ba1\u7406\u6a21\u5757");
+            usermanage.setText("\u533b\u751f\u8d26\u6237\u7ba1\u7406");
             usermanage.addActionListener(e -> usermanageActionPerformed(e));
             panel1.add(usermanage);
-            usermanage.setBounds(new Rectangle(new Point(40, 140), usermanage.getPreferredSize()));
+            usermanage.setBounds(35, 140, 150, usermanage.getPreferredSize().height);
 
             //---- personal ----
             personal.setText("\u4e2a\u4eba\u4fe1\u606f");
             personal.addActionListener(e -> personalActionPerformed(e));
             panel1.add(personal);
-            personal.setBounds(new Rectangle(new Point(65, 190), personal.getPreferredSize()));
+            personal.setBounds(35, 190, 150, personal.getPreferredSize().height);
 
             //---- help ----
             help.setText("\u5e2e\u52a9");
             help.addActionListener(e -> helpActionPerformed(e));
             panel1.add(help);
-            help.setBounds(new Rectangle(new Point(70, 240), help.getPreferredSize()));
+            help.setBounds(35, 240, 150, help.getPreferredSize().height);
 
             //---- title ----
-            title.setText("Menu");
+            title.setText("\u4e3b\u83dc\u5355");
             panel1.add(title);
             title.setBounds(new Rectangle(new Point(90, 15), title.getPreferredSize()));
 
@@ -134,9 +134,9 @@ public class Menu extends JFrame {
             exit.setBounds(75, 370, 65, 65);
 
             //---- label1 ----
-            label1.setText("LogOut");
+            label1.setText("\u8fd4\u56de");
             panel1.add(label1);
-            label1.setBounds(new Rectangle(new Point(85, 440), label1.getPreferredSize()));
+            label1.setBounds(new Rectangle(new Point(95, 440), label1.getPreferredSize()));
 
             {
                 // compute preferred size

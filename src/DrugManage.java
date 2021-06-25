@@ -326,12 +326,12 @@ public class DrugManage extends JFrame {
             panel1.setLayout(null);
 
             //---- title ----
-            title.setText("Drug Manage");
+            title.setText("\u836f\u54c1\u7ba1\u7406");
             panel1.add(title);
-            title.setBounds(new Rectangle(new Point(395, 20), title.getPreferredSize()));
+            title.setBounds(new Rectangle(new Point(405, 20), title.getPreferredSize()));
 
             //---- back ----
-            back.setText("Back");
+            back.setText("\u8fd4\u56de");
             back.addActionListener(e -> backActionPerformed(e));
             panel1.add(back);
             back.setBounds(new Rectangle(new Point(5, 5), back.getPreferredSize()));
@@ -341,19 +341,19 @@ public class DrugManage extends JFrame {
                 menupanel.setLayout(null);
 
                 //---- druginfo ----
-                druginfo.setText("DrugInfo");
+                druginfo.setText("\u836f\u54c1\u4fe1\u606f");
                 druginfo.addActionListener(e -> druginfoActionPerformed(e));
                 menupanel.add(druginfo);
                 druginfo.setBounds(0, 60, 100, druginfo.getPreferredSize().height);
 
                 //---- search ----
-                search.setText("Purchase");
+                search.setText("\u836f\u54c1\u91c7\u8d2d");
                 search.addActionListener(e -> searchActionPerformed(e));
                 menupanel.add(search);
                 search.setBounds(0, 140, 100, search.getPreferredSize().height);
 
                 //---- mana ----
-                mana.setText("Manage");
+                mana.setText("\u836f\u54c1\u7ba1\u7406");
                 mana.addActionListener(e -> manaActionPerformed(e));
                 menupanel.add(mana);
                 mana.setBounds(0, 215, 100, mana.getPreferredSize().height);
